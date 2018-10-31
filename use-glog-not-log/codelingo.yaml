@@ -1,0 +1,27 @@
+tenets:
+  - name: use-glog-not-log
+    flows:
+      codelingo/docs:
+        title: Use Glog not Log
+        body: |
+         Glog is globally preferred to log for better runtime control.
+
+          See,
+          http://godoc.org/github.com/golang/glog
+          http://golang.org/pkg/log/
+      codelingo/review:
+        comment: Glog is globally preferred to log for better runtime control.
+    query: |
+      import codelingo/ast/go
+
+      go.file(depth = any):
+        go.decls:
+          go.gen_decl:
+            go.import_spec:
+              go.basic_lit:
+                value == "log"
+        go.selector_expr(depth = any):
+          @review comment
+          go.ident:
+            name == "log"
+                        

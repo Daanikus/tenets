@@ -3,7 +3,7 @@ funcs:
     type: asserter
     body: |
       function (a) {
-        return a.match(/^[a-z]\+\([A-Z][a-z]\+\)*\+Lock$/) === null
+        return a.match(/^[a-z]+([A-Z][a-z]*)*Lock$/) === null
       }
 tenets:
   - name: well-named-locks
@@ -16,7 +16,7 @@ tenets:
           give each lock a distinct name following Go conventions 
           - `stateLock`, `mapLock` etc.
       codelingo/review:
-        comment: Multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+        comment: Mutex {{lockname}} is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
     query: |
       import codelingo/ast/go
       

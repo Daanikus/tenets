@@ -1,0 +1,314 @@
+Constructing new git repo in temp folder... :: Thu Nov  1 14:54:42 NZDT 2018
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+Running: $HOME/scripts/rs -nc
+        -nogit
+        -noswap
+        $HOME/source/git/Daanikus/tenets/k8s/well-named-locks/
+        /tmp/td_well-named-lockszalIwI
+/usr/bin/rsync  -a -rtlhx -pug -s  --inplace --append   --exclude .cache  --exclude .git/ --exclude .gitignore --exclude TODO  --exclude '*~' --exclude '.#*'  $HOME/source/git/Daanikus/tenets/k8s/well-named-locks/ /tmp/td_well-named-lockszalIwI
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+/tmp/td_well-named-lockszalIwI
+working_dir (initial): /tmp/td_well-named-lockszalIwI
+Syncing your repo...
+Running review flow...
+example.go:16:7
+    Multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+        lockA sync.Mutex
+        lockB sync.Mutex
+  +     lockC sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:14:7
+    Multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+    type MockAddresses struct {
+  +     lockA sync.Mutex
+        lockB sync.Mutex
+        lockC sync.Mutex
+    ...
+[o]pen [k]eep [d]iscard : o
+application (vi):
+[o]pen [k]eep [d]iscard : k
+example.go:15:7
+    Multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+    type MockAddresses struct {
+        lockA sync.Mutex
+  +     lockB sync.Mutex
+        lockC sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+Done! 3 issues found.
+review finished
+Reformulate?
+working_dir (loop): /tmp/td_well-named-lockszalIwI
+: S
+: r
+[master 3cd4997] edit
+ 2 files changed, 12 insertions(+), 6 deletions(-)
+diff --git a/codelingo.yaml b/codelingo.yaml
+index 012dc9f..5cd04d7 100644
+--- a/codelingo.yaml
++++ b/codelingo.yaml
+@@ -3,7 +3,7 @@ funcs:
+     type: asserter
+     body: |
+       function (a) {
+-        return a.match(/^[a-z]\+\([A-Z][a-z]\+\)*\+Lock$/) === null
++        return a.match(/^[a-z]+([A-Z][a-z]*)*Lock$/) === null
+       }
+ tenets:
+   - name: well-named-locks
+diff --git a/example.go b/example.go
+index 4f906a4..39b2444 100644
+--- a/example.go
++++ b/example.go
+@@ -3,15 +3,21 @@ package main
+ import "fmt"
+ type anyStruct struct {
+-       lock sync.Mutex
++    lock sync.Mutex
+ }
+ type badStruct struct {
+-       badLock sync.Mutex
++    badLock sync.Mutex
+ }
+ type MockAddresses struct {
+-       lockA sync.Mutex
+-       lockB sync.Mutex
+-       lockC sync.Mutex
++    lockA sync.Mutex
++    lockB sync.Mutex
++    lockC sync.Mutex
++}
++
++type MoreMockAddresses struct {
++    locka sync.Mutex
++    lockA sync.Mutex
++    lockc sync.Mutex
+ }
+HEAD: 3cd4997b2232f0fa88ec48fd6aa2bd4acb80400c
+working_dir (initial):
+Syncing your repo...
+Running review flow...
+example.go:15:10
+    Multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+    type MockAddresses struct {
+        lockA sync.Mutex
+  +     lockB sync.Mutex
+        lockC sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:16:10
+    Multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+        lockA sync.Mutex
+        lockB sync.Mutex
+  +     lockC sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:22:10
+    Multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+        locka sync.Mutex
+        lockA sync.Mutex
+  +     lockc sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:20:10
+    Multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+    type MoreMockAddresses struct {
+  +     locka sync.Mutex
+        lockA sync.Mutex
+        lockc sync.Mutex
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:21:10
+    Multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+    type MoreMockAddresses struct {
+        locka sync.Mutex
+  +     lockA sync.Mutex
+        lockc sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+Done! 5 issues found.
+: y
+: r
+[master 9d88c85] edit
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+diff --git a/codelingo.yaml b/codelingo.yaml
+index 5cd04d7..f29073f 100644
+--- a/codelingo.yaml
++++ b/codelingo.yaml
+@@ -3,6 +3,7 @@ funcs:
+     type: asserter
+     body: |
+       function (a) {
++        //return a.match(/^[a-z]+([A-Z][a-z]*)*Lock$/) === null
+         return a.match(/^[a-z]+([A-Z][a-z]*)*Lock$/) === null
+       }
+ tenets:
+@@ -16,7 +17,7 @@ tenets:
+           give each lock a distinct name following Go conventions
+           - `stateLock`, `mapLock` etc.
+       codelingo/review:
+-        comment: Multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
++        comment: Mutex {{lockname}} is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+     query: |
+       import codelingo/ast/go
+HEAD: 9d88c85a7a75d8eed280377a5d519843a67956d2
+working_dir (initial):
+Syncing your repo...
+Running review flow...
+example.go:15:10
+    Mutex lockB is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+    type MockAddresses struct {
+        lockA sync.Mutex
+  +     lockB sync.Mutex
+        lockC sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:16:10
+    Mutex lockC is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+        lockA sync.Mutex
+        lockB sync.Mutex
+  +     lockC sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:22:10
+    Mutex lockc is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+        locka sync.Mutex
+        lockA sync.Mutex
+  +     lockc sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:20:10
+    Mutex locka is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+    type MoreMockAddresses struct {
+  +     locka sync.Mutex
+        lockA sync.Mutex
+        lockc sync.Mutex
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:21:10
+    Mutex lockA is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+    type MoreMockAddresses struct {
+        locka sync.Mutex
+  +     lockA sync.Mutex
+        lockc sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+Done! 5 issues found.
+: y
+: r
+[master 62459ea] edit
+ 2 files changed, 13 insertions(+), 8 deletions(-)
+diff --git a/codelingo.yaml b/codelingo.yaml
+index f29073f..a67dc3c 100644
+--- a/codelingo.yaml
++++ b/codelingo.yaml
+@@ -3,7 +3,6 @@ funcs:
+     type: asserter
+     body: |
+       function (a) {
+-        //return a.match(/^[a-z]+([A-Z][a-z]*)*Lock$/) === null
+         return a.match(/^[a-z]+([A-Z][a-z]*)*Lock$/) === null
+       }
+ tenets:
+diff --git a/example.go b/example.go
+index 39b2444..8f6c7b9 100644
+--- a/example.go
++++ b/example.go
+@@ -6,18 +6,24 @@ type anyStruct struct {
+     lock sync.Mutex
+ }
+-type badStruct struct {
+-    badLock sync.Mutex
++type bStruct struct {
++    bLock sync.Mutex
+ }
+ type MockAddresses struct {
+     lockA sync.Mutex
+-    lockB sync.Mutex
++    bLock sync.Mutex
+     lockC sync.Mutex
+ }
+-type MoreMockAddresses struct {
+-    locka sync.Mutex
+-    lockA sync.Mutex
+-    lockc sync.Mutex
++type AllGoodLocks struct {
++    stateLock sync.Mutex
++    stateBLock sync.Mutex
++    anotherLock sync.Mutex
++}
++
++type BadLocks struct {
++    lock sync.Mutex
++    badlock sync.Mutex
++    badlockC sync.Mutex
+ }
+HEAD: 62459ea3a13c7b91c0a2e68b7ee6fd542a3eae66
+working_dir (initial):
+Syncing your repo...
+Running review flow...
+example.go:27:12
+    Mutex badlock is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+    type BadLocks struct {
+        lock sync.Mutex
+  +     badlock sync.Mutex
+        badlockC sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:28:13
+    Mutex badlockC is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+        lock sync.Mutex
+        badlock sync.Mutex
+  +     badlockC sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:26:9
+    Mutex lock is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+    type BadLocks struct {
+  +     lock sync.Mutex
+        badlock sync.Mutex
+        badlockC sync.Mutex
+    ...
+[o]pen [k]eep [d]iscard : k
+example.go:16:10
+    Mutex lockC is named unconventionally. When multiple locks are present, give each lock a distinct name following Go conventions - `stateLock`, `mapLock` etc.
+    ...
+        lockA sync.Mutex
+        bLock sync.Mutex
+  +     lockC sync.Mutex
+    }
+    ...
+[o]pen [k]eep [d]iscard : k
+Done! 4 issues found.
+: B
+working_dir: /tmp/td_well-named-lockszalIwI
+Continue?

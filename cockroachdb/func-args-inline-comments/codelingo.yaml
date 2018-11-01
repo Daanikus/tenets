@@ -26,7 +26,7 @@ tenets:
             @review comment
             go.ident(depth = any):
               name == "nil"
-              start_line == 24       
-      # go.comment_group(depth = any):
-      #   go.comment:
-      #     start_line == line
+              start_line == line       
+      go.comment_group(depth = any):
+        go.comment:
+          start_line == line

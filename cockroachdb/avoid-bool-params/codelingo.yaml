@@ -1,0 +1,36 @@
+tenets:
+  - name: avoid-bool-params
+    flows:
+      codelingo/docs:
+        title: Try to Avoid bool Parameters
+        body: |
+          bool arguments to functions are often dubious things, as they hint to code that essentially reads like:
+          func doSomething(shouldDoX bool) {
+            if shouldDoX {
+              doX()
+            } else {
+              doY()
+            }
+          }
+
+          This is not always the case. However, in cases where that is a fair assessment of the situation, consider 
+          whether the doSomething function should exist at all.
+          In cases where the bool in question, along with other arguments, acts as a "knob" to the function consider 
+          replacing it with some type of "configuration" struct (for examples, see Dave Cheney's treatment of the topic). 
+          In situations where there's a single bool param or the situation is less clear-cut, consider replacing the bool 
+          in question with an enum. 
+      codelingo/review:
+        comment:  Consider replacing bool with an enum if being used as a "knob".
+    query: |
+      import codelingo/ast/go
+
+      @review comment
+      go.func_decl(depth = any):
+        go.ident
+        go.func_type:
+          go.field_list:
+            child_count == 1
+            go.field:
+              go.names:
+                go.ident:
+                  type == "bool"

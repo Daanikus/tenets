@@ -5,22 +5,45 @@ funcs:
       function (str) {
         return str.indexOf("%v") !== -1;
       }
-  - name: isNotNullable
-    type: asserter
+  - name: verbsForType
+    type: resolver
     body: |
       function (type) {
-        
-        var types = [
-        "string", "bool", "int", "int8", 
-        "int16", "int32", "int64", "uint", 
-        "uint8", "uint16", "uint32", "uint64", 
-        "uintptr", "byte", "rune", "float32", 
-        "float64", "complex32", "complex64"];
 
-        return types.indexOf(type) !== -1;
+        var types = {
+        "string":     "%s", 
+        "bool":       "%t",
+        "int":        "%d",
+        "int8":       "",
+        "int16":      "",
+        "int32":      "",
+        "int64":      "",
+        "uint":       "",
+        "uint8":      "",
+        "uint16":     "",
+        "uint32":     "",
+        "uint64":     "",
+        "uintptr":    "",
+        "byte":       "",
+        "rune":       "",
+        "float32":    "", 
+        "float64":    "",
+        "complex32":  "",
+        "complex64":  "",
+        }
+
+        var result = types[type]
+
+        if (typeof result == 'undefined') {
+          return ""
+        }
+
+        return result
       }
 tenets:
   - name: fmt-verbs
+    vars:
+      result: "{{verbsForType(argType)}}"
     flows:
       codelingo/docs:
         title: Use Appropriate Verbs in Format
@@ -33,7 +56,7 @@ tenets:
           will render as "". Therefore, prefer %v when formatting errors 
           which are not known to be non-nil.
       codelingo/review:
-        comment: Non-nil type should use type-appropriate verb. Eg. %s, %d.
+        comment:  type should use -appropriate verb such as {{ result }}
     query: |
 
       import codelingo/ast/go
@@ -50,4 +73,4 @@ tenets:
           go.ident:
             type as argType
             containsGeneralVerb(formatString)
-            isNotNullable(argType)
+            result != ""

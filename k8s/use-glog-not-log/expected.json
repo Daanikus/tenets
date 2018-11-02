@@ -1,0 +1,14 @@
+[
+  {
+   "Comment": "Glog is globally preferred to log for better runtime control.",
+   "Filename": "k8s/use-glog-not-log/example.go",
+   "Line": 12,
+   "Snippet": "\tvar (\n\t\tbuf    bytes.Buffer\n\t\tlogger = log.New(\u0026buf, \"logger: \", log.Lshortfile)\n\t)\n"
+  },
+  {
+   "Comment": "Glog is globally preferred to log for better runtime control.",
+   "Filename": "k8s/use-glog-not-log/example.go",
+   "Line": 12,
+   "Snippet": "\tvar (\n\t\tbuf    bytes.Buffer\n\t\tlogger = log.New(\u0026buf, \"logger: \", log.Lshortfile)\n\t)\n"
+  }
+ ]

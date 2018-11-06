@@ -1,0 +1,25 @@
+tenets:
+  - name: comments-on-exported-funcs
+    flows:
+      codelingo/docs:
+        title: Doc Comments on Exported Functions
+        body: |
+          All top-level, exported names should have doc comments, 
+          as should non-trivial unexported type or function declarations. 
+          See https://golang.org/doc/effective_go.html#commentary for more 
+          information about commentary conventions.
+      codelingo/review:
+        comment: All top-level, exported names should have doc comments, as should non-trivial unexported type or function declarations.
+    query: |
+      import codelingo/ast/go
+
+      go.file(depth = any):
+        go.decls:
+          @review comment
+          go.func_decl:
+            public == "true"
+            exclude:
+              go.func_decl:
+                public == "true"
+                go.comment_group:
+                  go.comment

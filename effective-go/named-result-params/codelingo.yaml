@@ -3,7 +3,9 @@ funcs:
     type: asserter
     body: |
       function(a, b) {
-        if (a === "err" && b === "error")
+        if (a === "err" && b === "error") {
+          return true
+        }
         return a.toLowerCase() === b.toLowerCase()
       }
 tenets:
@@ -26,7 +28,7 @@ tenets:
                   go.names:
                     go.ident:
                       name as paramName
-                  go.star_expr:
-                    go.ident:
-                      name as identName
-                      isEqual(paramName, identName)
+                  # go.star_expr:
+                  go.ident(depth = 0:2):
+                    name as identName
+                    isEqual(paramName, identName)

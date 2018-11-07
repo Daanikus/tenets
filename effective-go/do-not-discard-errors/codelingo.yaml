@@ -1,0 +1,23 @@
+tenets:
+  - name: do-not-discard-errors
+    flows:
+      codelingo/review:
+        comment: |
+          Do not discard errors using _ variables. If a function returns an error, 
+          check it to make sure the function succeeded. Handle the error, return it, or, 
+          in truly exceptional situations, panic.
+    query: |
+      import codelingo/ast/go
+
+      go.file(depth = any):
+        go.decls:
+          go.func_decl:
+            go.block_stmt:
+              go.list:
+                go.assign_stmt:
+                  go.lhs:
+                    child_count == 2
+                    go.ident
+                    @review comment
+                    go.ident:
+                      name == "_"

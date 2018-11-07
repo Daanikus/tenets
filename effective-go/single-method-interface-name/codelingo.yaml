@@ -10,8 +10,8 @@ tenets:
     flows:
       codelingo/review:
         comment: |
-          If an interface contains only one method, check that the method name appears 
-          at the beginning of the interface name. Eg. interface Reader with method Read()
+          If an interface contains only one method, the method name should appear 
+          at the beginning of the interface name. Eg. interface "Reader" with method "Read()"
     query: |
       import codelingo/ast/go
 

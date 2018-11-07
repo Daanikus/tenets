@@ -5,12 +5,12 @@ import (
 )
 
 type person struct {
-    name string
-    age  int
+	name string
+	age  int
 }
 
 func main() {
 	fmt.Println("Hello, playground")
-  //person{"Bob", 20}
-  person{age: 20}
+	//person{"Bob", 20}
+	person{age: 20}
 }

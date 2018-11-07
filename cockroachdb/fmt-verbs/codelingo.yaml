@@ -3,7 +3,7 @@ funcs:
     type: asserter
     body: |
       function (str) {
-        return str.indexOf("%v") !== -1;
+        return str.indexOf("%v") !== -1
       }
   - name: verbsForType
     type: resolver
@@ -56,12 +56,12 @@ tenets:
           will render as "". Therefore, prefer %v when formatting errors 
           which are not known to be non-nil.
       codelingo/review:
-        comment:  type should use -appropriate verb such as {{{result}}}
+        comment:  type should use -appropriate verb such as {{result}}
     query: |
 
       import codelingo/ast/go
 
-      go.call_expr(depth = 0:3):
+      go.call_expr(depth = any):
         go.selector_expr:
           @review comment
           go.ident:

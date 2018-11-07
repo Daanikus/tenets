@@ -1,17 +1,17 @@
 package main
 
 import (
-    "fmt"
+	"fmt"
 )
 
 func main() {
-    fmt.Println("Hello, world!")
+	fmt.Println("Hello, world!")
 }
 
 func foo(bar bool) {
-    fmt.Println("Hello, foo!")
+	fmt.Println("Hello, foo!")
 }
 
 func far(boo bool, a int) {
-    fmt.Println("Hello, far!")
+	fmt.Println("Hello, far!")
 }

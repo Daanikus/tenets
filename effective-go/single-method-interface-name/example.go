@@ -1,34 +1,34 @@
 package main
 
-import(
-    "fmt"
+import (
+	"fmt"
 )
 
 type Reader interface {
-    Read() []byte
+	Read() []byte
 }
 
 type SomeName interface {
-    Read() []byte
+	Read() []byte
 }
 
 type Writer interface {
-    Write() int
+	Write() int
 }
 
 type SomeWriter interface {
-    Write() int
+	Write() int
 }
 
 type DoesntCount interface {
-    Write() int
-    Read() []byte
+	Write() int
+	Read() []byte
 }
 
 type Read interface {
-    Reader() []byte
+	Reader() []byte
 }
 
 func main() {
-    fmt.Println("Hello, world!")
+	fmt.Println("Hello, world!")
 }

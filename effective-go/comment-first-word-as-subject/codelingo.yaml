@@ -27,6 +27,7 @@ tenets:
             go.comment_group:
               @review comment
               go.comment:
+                sibling_order == 0
                 text as commText
             go.ident:
               name as funcName

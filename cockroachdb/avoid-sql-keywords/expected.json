@@ -1,0 +1,14 @@
+[
+  {
+   "Comment": "type should use -appropriate verb such as",
+   "Filename": "cockroachdb/avoid-sql-keywords/example.go",
+   "Line": 4,
+   "Snippet": "\nfunc main() {\n    table := 12\n    thing := 32\n    var user string = \"hello\""
+  },
+  {
+   "Comment": "type should use -appropriate verb such as",
+   "Filename": "cockroachdb/avoid-sql-keywords/example.go",
+   "Line": 6,
+   "Snippet": "    table := 12\n    thing := 32\n    var user string = \"hello\"\n}"
+  }
+ ]

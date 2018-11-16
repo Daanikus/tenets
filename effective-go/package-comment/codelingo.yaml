@@ -8,9 +8,12 @@ tenets:
     query: |
       import codelingo/ast/go
 
-      @review comment
-      go.file(depth = any):
-        exclude:
-          go.comment(depth = any):
-            start_offset == 0
+      
+      go.dir(depth = any):
+        @review comment
+        go.file(depth = any):
+          exclude:
+            go.comment(depth = any):
+              start_offset == 0
+
 

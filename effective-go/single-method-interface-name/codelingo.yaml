@@ -15,20 +15,17 @@ tenets:
     query: |
       import codelingo/ast/go
 
-      go.file(depth = any):
-        go.decls:
-          go.gen_decl:
-            go.type_spec:
-              go.ident:
-                name as ifName
-              @review comment
-              go.interface_type:
-                go.field_list:
-                  child_count == 1
-                  go.field:
-                    go.names:
-                      go.ident:
-                        name as methodName
-                        isBadName(ifName, methodName)
+      go.type_spec(depth = any):
+        go.ident:
+          name as ifName
+        @review comment
+        go.interface_type:
+          go.field_list:
+            child_count == 1
+            go.field:
+              go.names:
+                go.ident:
+                  name as methodName
+                  isBadName(ifName, methodName)
 
 

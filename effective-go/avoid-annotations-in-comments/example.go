@@ -7,11 +7,10 @@ import (
 func main() {
 	//This is a comment
 	fmt.Println("Hello, playground")
-	/* This is another comment _this_
-	 *
-	 */
+	// <this> comment has annotations
 	fmt.Println("Hello")
-	// This comment is fine and should not be picked up
+	// <this> and _this_ should be removed
 	fmt.Println("Hello")
-	// <this> tag should be caught
+	/* <this> one _too_
+    */
 }

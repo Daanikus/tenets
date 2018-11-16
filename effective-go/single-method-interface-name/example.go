@@ -1,3 +1,4 @@
+// Package main for tenet testing
 package main
 
 import (

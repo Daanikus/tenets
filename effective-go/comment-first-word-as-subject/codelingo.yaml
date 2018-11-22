@@ -7,11 +7,31 @@ funcs:
         var words = text.split(" ")
         return words[0].toLowerCase() !== name.toLowerCase()
       }
-  - name: testFunc
+  - name: fixComment
     type: resolver
     body: |
-      function(text) {
-        return "Text from func"
+      function (text, name) {
+        var commentChar = text.substring(0, 2)
+        var text = text.substring(2).trim()
+        var splitText = text.split(" ")
+        var result = false
+        var firstWord = splitText[0].split(/(?=[A-Z])/)
+        
+        firstWord.forEach(function(w) {
+          if (w.toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+              name.toLowerCase().indexOf(w.toLowerCase()) !== -1) {
+
+            splitText[0] = name
+            result = true
+            
+          }    
+        })
+
+        if (result) {
+          return commentChar + " " + splitText.join(" ")
+        }
+        
+        return commentChar + " " + name + " " + splitText.join(" ")
       }
 tenets:
   - name: comment-first-word-as-subject
@@ -32,7 +52,7 @@ tenets:
 
       go.func_decl(depth = any):
         go.comment_group:
-          @review "{{testFunc(funcName)}}"
+          @review "{{fixComment(commText, funcName)}}"
           @rewrite --replace "Hello"
           go.comment:
             sibling_order == 0

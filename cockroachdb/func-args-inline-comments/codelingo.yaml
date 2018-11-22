@@ -15,10 +15,15 @@ tenets:
           whether the type is predeclared or not) and for nil identifiers, 
           as they are frequently not suggestive enough of what they represent.
       codelingo/review:
-        comment: Most functions that use a Context should accept it as their first parameter.
+        comment: Consider adding an inline comment specifying the
+          respective parameter's name. Particularly, consider doing this
+          for literals of "basic" types
     query: |
 
       import codelingo/ast/go
+
+      # This tenet is not working
+      # Need to be able to query 'line'
 
       go.file(depth = any):
         go.call_expr(depth = any):

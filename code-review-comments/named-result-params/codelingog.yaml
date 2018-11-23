@@ -1,0 +1,47 @@
+funcs:
+  - name: isEqual
+    type: asserter
+    body: |
+      function(a, b) {
+        if (a === "err" && b === "error") {
+          return true
+        }
+        return a.toLowerCase() === b.toLowerCase()
+      }
+tenets:
+  - name: named-result-params
+    flows:
+      codelingo/review:
+        comment:  Parameter `{{paramName}}` has the same name as its type `{{identName}}`. This causes the godocs to stutter. Consider removing the name of the return parameter.
+    query: |
+      import codelingo/ast/go
+
+      go.file(depth = any):
+        go.decls:
+          @review comment
+          go.func_decl:
+            go.ident
+            go.func_type:
+              go.field_list:
+                sibling_order == 1
+                go.field:
+                  child_count == 2
+                  go.names:
+                    go.ident:
+                      name as paramName
+                  any_of:
+                    go.star_expr:
+                      go.selector_expr:
+                        child_count == 1
+                        go.ident(depth = 0:2):
+                          name as identName
+                          isEqual(paramName, identName)
+                          exclude:
+                            go.names:
+                              go.ident
+                      go.ident:
+                        name as identName
+                        isEqual(paramName, identName)
+                        exclude: 
+                          go.names:
+                            go.ident

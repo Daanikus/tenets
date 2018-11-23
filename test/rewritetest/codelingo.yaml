@@ -1,0 +1,64 @@
+funcs:
+  - name: isValid
+    type: asserter
+    body: |
+      function(text, name) {
+        text = text.substring(2).trim()
+        var words = text.split(" ")
+        return words[0].toLowerCase() !== name.toLowerCase()
+      }
+  - name: fixComment
+    type: resolver
+    body: |
+      function (text, name) {
+        var commentChar = text.substring(0, 2)
+        var text = text.substring(2).trim()
+        var splitText = text.split(" ")
+        var result = false
+        // var firstWord = splitText[0].split(/(?=[A-Z])/)
+        var firstWord = splitText[0].match(/[A-Z][a-z]+/g)
+        
+        if (firstWord != null) {
+          for (var i = 0; i < firstWord.length; i++) {
+            if (firstWord[i].toLowerCase().indexOf(name.toLowerCase()) !== -1 ||
+                name.toLowerCase().indexOf(firstWord[i].toLowerCase()) !== -1) {
+              splitText[0] = name
+              result = true 
+            }  
+          }
+        }
+
+
+        if (result) {
+          return commentChar + " " + splitText.join(" ")
+        }
+        
+        return commentChar + " " + name + " " + splitText.join(" ")
+      }
+tenets:
+  - name: comment-first-word-as-subject
+    vars:
+      someText: "This is a string"
+    flows:
+      codelingo/rewrite:
+      codelingo/docs:
+        title: Comment First Word as Subject
+        body: |
+          Doc comments work best as complete sentences, which allow a wide variety of automated presentations. 
+          The first sentence should be a one-sentence summary that starts with the name being declared.
+      codelingo/review:
+        comment: |
+          The first sentence should be a one-sentence summary that starts with the name ({{funcName}}) being declared.
+    query: |
+      import codelingo/ast/go
+
+      go.func_decl(depth = any):
+        go.comment_group:
+          @review comment
+          @rewrite --replace "{{fixComment(commText, funcName)}}"
+          go.comment:
+            sibling_order == 0
+            text as commText
+        go.ident:
+          name as funcName
+          isValid(commText, funcName)

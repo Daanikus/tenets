@@ -1,0 +1,20 @@
+funcs:
+  - name: test
+    type: resolver
+    body: |
+      function() {
+        return "Some text"
+      }
+tenets:
+  - name: find-funcs
+    flows:
+      codelingo/rewrite:
+      codelingo/review:
+        comment: This is a function, but you probably already knew that.
+    query: |
+      import codelingo/ast/go
+
+      @review comment
+      @rewrite --replace "{{test(someText)}}"
+      go.comment(depth = any):
+        text as someText

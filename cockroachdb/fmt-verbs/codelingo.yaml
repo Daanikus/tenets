@@ -13,36 +13,31 @@ funcs:
     type: resolver
     body: |
       function (type) {
-
         var types = {
-        "string":     "%s", 
-        "bool":       "%t",
-        "int":        "%d",
-        "int8":       "%d",
-        "int16":      "%d",
-        "int32":      "%d",
-        "int64":      "%d",
-        "uint":       "%d",
-        "uint8":      "%d",
-        "uint16":     "%d",
-        "uint32":     "%d",
-        "uint64":     "%d",
-        "uintptr":    "%p",
-        "byte":       "%d",
-        "rune":       "%q",
-        "float32":    "%g", 
-        "float64":    "%g",
-        "complex32":  "%g",
-        "complex64":  "%g",
+        "string":     "%%s", 
+        "bool":       "%%t",
+        "int":        "%%d",
+        "int8":       "%%d",
+        "int16":      "%%d",
+        "int32":      "%%d",
+        "int64":      "%%d",
+        "uint":       "%%d",
+        "uint8":      "%%d",
+        "uint16":     "%%d",
+        "uint32":     "%%d",
+        "uint64":     "%%d",
+        "uintptr":    "%%p",
+        "byte":       "%%d",
+        "rune":       "%%q",
+        "float32":    "%%g", 
+        "float64":    "%%g",
+        "complex32":  "%%g",
+        "complex64":  "%%g",
         }
 
         var result = types[type]
 
-        if (typeof result == 'undefined') {
-          return ""
-        }
-
-        return result
+        return typeof result == 'undefined' ? "" : result
       }
 tenets:
   - name: fmt-verbs
@@ -64,6 +59,18 @@ tenets:
     query: |
 
       import codelingo/ast/go
+
+      # Currently only works for the first arg to fmt
+      # The JS function is ready when we have a good
+      # solution to handling star expression arg types.
+      # eg. we want:
+      #
+      # any_of:
+      #   go.ident:
+      #     name as typeName
+      #   go.star_expr:
+      #     go.ident:
+      #       name as typeName
 
       go.call_expr(depth = any):
         go.selector_expr:

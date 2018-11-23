@@ -1,0 +1,8 @@
+[
+  {
+   "Comment": "The convention in Go is to use MixedCaps or mixedCaps rather than underscores to write multiword names.",
+   "Filename": "effective-go/temp/example-orig.go",
+   "Line": 8,
+   "Snippet": "\nfunc main() {\n    var a_var = 15\n\t//This is a comment\n\tfmt.Println(\"Hello, playground\")"
+  }
+ ]

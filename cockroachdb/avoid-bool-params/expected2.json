@@ -1,0 +1,8 @@
+[
+  {
+   "Comment": "Consider replacing bool with an enum if being used as a \"knob\".",
+   "Filename": "cockroachdb/avoid-bool-params/example.go",
+   "Line": 11,
+   "Snippet": "}\n\nfunc foo(bar bool) {\n\tfmt.Println(\"Hello, foo!\")\n}\n\nfunc far(boo bool, a int) {"
+  }
+ ]

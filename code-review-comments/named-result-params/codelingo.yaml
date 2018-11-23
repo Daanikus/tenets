@@ -2,11 +2,11 @@ funcs:
   - name: isEqual
     type: asserter
     body: |
-      function(a, b) {
-        if (a === "err" && b === "error") {
+      function(param, type) {
+        if (param === "err" && type === "error") {
           return true
         }
-        return a.toLowerCase() === b.toLowerCase()
+        return param.toLowerCase() === type.toLowerCase()
       }
 tenets:
   - name: named-result-params

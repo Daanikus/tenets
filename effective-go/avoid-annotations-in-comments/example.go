@@ -12,5 +12,6 @@ func main() {
 	// <this> and _this_ should be removed
 	fmt.Println("Hello")
 	/* <this> one _too_
-    */
+	 */
+	//Don't_catch_this
 }
